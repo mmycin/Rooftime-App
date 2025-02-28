@@ -7,6 +7,19 @@
 
 <div class="container mx-auto px-4 max-w-7xl">
 	<Header />
-		{@render children()}
+	{@render children()}
 	<Footer />
 </div>
+
+<style>
+	:global(body) {
+		margin: 0;
+		background: linear-gradient(135deg, #0c0515 0%, #110a1f 50%, #000000 100%);
+		color: #e4e4e7;
+		font-family: 'Poppins', sans-serif;
+		min-height: 100vh;
+		background-attachment: fixed;
+		position: relative;
+		overflow-x: hidden;
+	}
+</style>

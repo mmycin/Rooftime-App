@@ -31,18 +31,6 @@
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-
-	:global(body) {
-		margin: 0;
-		background: linear-gradient(135deg, #0c0515 0%, #110a1f 50%, #000000 100%);
-		color: #e4e4e7;
-		font-family: 'Poppins', sans-serif;
-		min-height: 100vh;
-		background-attachment: fixed;
-		position: relative;
-		overflow-x: hidden;
-	}
-
 	/* Header Styling */
 	header {
 		box-shadow: 

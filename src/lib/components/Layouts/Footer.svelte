@@ -16,24 +16,13 @@
 			</svg>
 			<span class="nav-text">Timer</span>
 		</a>
-		<!-- Score Board -->
-		<a href="/scoreboard" class="nav-item group">
-			<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M18 3v17a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1z"></path>
-				<line x1="8" y1="10" x2="16" y2="10"></line>
-				<line x1="8" y1="14" x2="16" y2="14"></line>
-				<line x1="8" y1="18" x2="12" y2="18"></line>
-				<rect x="10" y1="6" width="4" height="4" rx="1"></rect>
-			</svg>
-			<span class="nav-text">Score</span>
-		</a>
 		<!-- Performance -->
 		<a href="/performance" class="nav-item group">
 			<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 				<path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"></path>
 				<path d="M15.9 11a4 4 0 1 1-7.8 0M12 8v4l2 2"></path>
 			</svg>
-			<span class="nav-text">Stats</span>
+			<span class="nav-text">Performance</span>
 		</a>
 		<!-- Account -->
 		<a href="/profile" class="nav-item group">

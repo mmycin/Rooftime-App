@@ -18,17 +18,23 @@ class Database {
 		return await pb.collection(this.collection).getOne(id);
 	}
 
+	async findMany(ids: string[]) {
+		return await pb.collection(this.collection).getList(1, 100, {
+			filter: `id IN (${ids.map((id) => `"${id}"`).join(',')})`
+		});
+	}
+
 	async create(data: object) {
 		return await pb.collection(this.collection).create(data);
 	}
 
-    async update(id: string, data: object) {
-        return await pb.collection(this.collection).update(id, data);
-    }
+	async update(id: string, data: object) {
+		return await pb.collection(this.collection).update(id, data);
+	}
 
-    async delete(id: string) {
-        return await pb.collection(this.collection).delete(id);
-    }
+	async delete(id: string) {
+		return await pb.collection(this.collection).delete(id);
+	}
 }
 
 export default Database;
