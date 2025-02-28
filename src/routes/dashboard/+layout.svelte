@@ -1,17 +1,18 @@
+
 <script>
-	import { goto } from "$app/navigation";
-	import Login from "$lib/components/Login.svelte";
+	import { goto } from '$app/navigation';
+    import Footer from '$lib/components/Layouts/Footer.svelte';
 
     let isLoggedIn = true;
 
     $: {
         try {
             const token = localStorage.getItem('token');
-            if (token !== null) {
-                isLoggedIn = true;
-                goto('/dashboard');
-            } else {
+            if (token === null) {
                 isLoggedIn = false;
+                goto('/');
+            } else {
+                isLoggedIn = true;
             }
         } catch (error) {
             console.log(error);
@@ -19,11 +20,12 @@
 
         console.log(isLoggedIn);
     }
-
 </script>
 
-<main>
-    {#if !isLoggedIn}
-        <Login />   
+
+<div>
+    {#if isLoggedIn}
+        <slot />
+        <Footer />
     {/if}
-</main>
+</div>
