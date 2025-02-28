@@ -5,7 +5,7 @@
 </script>
 
 <!-- svelte-ignore slot_element_deprecated -->
-<div class="container mx-auto px-4 max-w-7xl">
+<div class="container mx-auto">
 	<Header />
 	<slot />
 </div>

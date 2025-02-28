@@ -5,7 +5,7 @@ import { stats, type Stats } from "./Statistics";
 export const users = new Database('Users');
 
 export interface User {
-    id: string;
+	id: string;
 	Name: string;
 	Email: string;
 	Phone: string;
@@ -14,8 +14,8 @@ export interface User {
 	About_Info: string;
 	Phone_Number: string;
 	Profile_Picture: string;
-    Jwt_Token: string | null;
-    Stats: RecordModel[]; // Stats is now an array
+	JWT_Token: string | null;
+	Stats: RecordModel[]; // Stats is now an array
 }
 export default async function fetchUser(): Promise<User[]> {
     const data = await users.findAll() as unknown as User[];

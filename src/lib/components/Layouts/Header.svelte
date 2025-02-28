@@ -2,6 +2,7 @@
 	<div class="w-full px-6 sm:px-8 py-3 sm:py-4">
 		<div class="flex items-center justify-between">
 			
+			<a href="/dashboard" class="flex items-center flex-grow justify-center select-none">
 			<!-- Title in the center -->
 			<div class="flex items-center flex-grow justify-center select-none">
 				<span
@@ -22,6 +23,7 @@
 					</span>
 				</div>
 			</div>
+			</a>
 
 			<!-- Empty div for layout balance -->
 			<div class="w-10 sm:w-14"></div>
