@@ -18,7 +18,7 @@
 					<span
 						class="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-500 to-indigo-500 tracking-widest letter-spacing-expanded -mt-1 hover:scale-105 transition-transform duration-300 ease-in-out"
 					>
-						LEAGUE
+						Society
 					</span>
 				</div>
 			</div>
