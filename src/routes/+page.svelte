@@ -4,7 +4,6 @@
     import Database from "../db/Database";
     import fetchUser from "../store/User";
     import fetchStats, { stats } from "../store/Stats";
-
     let usersData;
 
     onMount(async () => {
@@ -21,4 +20,5 @@
         <p>{user.Username}</p>
         <p>{user.Password}</p>
     {/each}
+
 </main>
