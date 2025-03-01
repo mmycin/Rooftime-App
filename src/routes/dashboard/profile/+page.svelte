@@ -2,6 +2,13 @@
 	import { goto } from "$app/navigation";
     // @ts-ignore
     import Notify from 'notifier-mycin';
+    import CurrentUser from '$lib/components/Utils/CurrentUser';
+	import { onMount } from 'svelte';
+
+	onMount(async () => {
+		const currentUser = await CurrentUser();
+		console.log(currentUser);
+	});
 
     function logout() {
         localStorage.removeItem('token');

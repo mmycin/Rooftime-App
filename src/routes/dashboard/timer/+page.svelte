@@ -1,1 +1,3 @@
-timer
+<script lang="ts">
+  
+</script>

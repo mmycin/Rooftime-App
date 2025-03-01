@@ -33,10 +33,14 @@
 		"@capacitor/core": "^7.0.1",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@types/bcryptjs": "^2.4.6",
+		"@types/chart.js": "^2.9.41",
 		"@types/jsonwebtoken": "^9.0.9",
+		"axios": "^1.8.1",
 		"bcryptjs": "^3.0.2",
+		"chart.js": "^4.4.8",
 		"jose": "^6.0.8",
 		"notifier-mycin": "^1.0.0",
-		"pocketbase": "^0.25.1"
+		"pocketbase": "^0.25.1",
+		"typed.js": "^2.1.0"
 	}
 }

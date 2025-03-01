@@ -41,7 +41,6 @@ export default async function fetchUser(): Promise<User[]> {
 	const cachedResponse = await cache.match('users-data');
 
 	if (cachedResponse) {
-		console.log('Serving from cache');
 		return cachedResponse.json();
 	}
 
