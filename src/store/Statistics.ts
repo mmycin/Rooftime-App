@@ -7,6 +7,7 @@ export interface Stats {
 	Time_Total: number;
 	Score_Week: number;
 	Score_Total: number;
+	Daily_Stats: object;
 }
 
 export default async function fetchStats() {
