@@ -1,5 +1,6 @@
 <script>
 	import { goto } from "$app/navigation";
+	import Copyright from "$lib/components/Layouts/Copyright.svelte";
 	import Login from "$lib/components/Login.svelte";
 
     let isLoggedIn = true;
@@ -23,6 +24,7 @@
 
 <main>
     {#if !isLoggedIn}
-        <Login />   
+        <Login />
+        <Copyright />   
     {/if}
 </main>
