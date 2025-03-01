@@ -1,6 +1,6 @@
 import type { RecordModel } from "pocketbase";
 import Database from "../db/Database";
-import { stats, type Stats } from "./Statistics";
+import { stats } from "./Statistics";
 
 export const users = new Database('Users');
 
@@ -17,8 +17,9 @@ export interface User {
 	JWT_Token: string | null;
 	Stats: RecordModel[]; // Stats is now an array
 }
-export default async function fetchUser(): Promise<User[]> {
+export async function refreshData(): Promise<User[]> {
     const data = await users.findAll() as unknown as User[];
+
 
     const statsData = await stats.findAll();    
 
@@ -31,4 +32,32 @@ export default async function fetchUser(): Promise<User[]> {
         }
     });
     return data;
+}
+
+const CACHE_NAME = 'user-cache';
+
+export default async function fetchUser(): Promise<User[]> {
+	const cache = await caches.open(CACHE_NAME);
+	const cachedResponse = await cache.match('users-data');
+
+	if (cachedResponse) {
+		console.log('Serving from cache');
+		return cachedResponse.json();
+	}
+
+	console.log('Fetching from network');
+	const data = (await users.findAll()) as unknown as User[];
+	const statsData = await stats.findAll();
+
+	data.forEach((user) => {
+		user.Stats = statsData.filter((stat) => stat.Owner === user.id) || [];
+	});
+
+	// Store the response in cache
+	const response = new Response(JSON.stringify(data), {
+		headers: { 'Content-Type': 'application/json' }
+	});
+	cache.put('users-data', response);
+
+	return data;
 }

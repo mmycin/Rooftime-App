@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import fetchUser from '../../store/User';
 	import type { User } from '../../store/User';
+    import { refreshData as RefreshUsers } from '../../store/User';
 
 	let users: User[] = [];
 	let isLoading = true;
@@ -29,7 +30,7 @@
     const refreshData = async () => {
         try {
             isLoading = true;
-            const newData = await loadUsers();
+            const newData = await RefreshUsers();
             users = newData;
         } catch (error) {
             console.error('Error refreshing data:', error);
