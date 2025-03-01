@@ -292,7 +292,7 @@
 
 <svelte:window on:resize={handleResize}/>
 
-<main class="min-h-screen text-white px-3 py-4 sm:p-4 font-sans sm:mb-10">
+<main class="min-h-screen text-white px-3 py-4 sm:p-4 font-sans sm:mb-20">
   <div class="max-w-4xl mx-auto">
     <!-- Glass morphism card with better mobile styling -->
     <div class="bg-gray-900/40 backdrop-blur-md rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 shadow-2xl border border-purple-800/30 transition-all duration-300">

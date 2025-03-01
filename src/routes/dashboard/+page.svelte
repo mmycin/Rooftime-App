@@ -73,7 +73,7 @@
 	};
 </script>
 
-<main class="min-h-screen text-white p-4 md:p-6 font-sans">
+<main class="min-h-screen text-white p-4 md:p-6 font-sans md:mb-30">
 	<div class="max-w-4xl mx-auto">
 		<!-- Heading and Refresh Button -->
 		<div class="flex justify-between items-center mb-8 md:mb-10">
