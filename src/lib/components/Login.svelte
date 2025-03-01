@@ -7,7 +7,7 @@
 	import Notify from 'notifier-mycin';
 	import { CreateToken } from "./Utils/Token";
 	import { users as Users }  from "../../store/User";
-	import { pb } from "../../db/Database";
+	import { VerifyPassword } from "./Utils/HashPass";
 
 	let username = '';
 	let password = '';
@@ -21,23 +21,18 @@
 			return;
 		}
 
-		const formData = { username, password };
-		console.log(formData);
-
-		const user = users.filter((user) => user.Username === username)[0];
-		console.log(users);
+		const user = users.filter((user) => user.Username.toLowerCase() === username.toLowerCase())[0];
 
 		if(user) {
-			if(user.Password === password) {
+			if(await VerifyPassword(password, user.Password)) {
 				const jwt = await CreateToken(user.id);
-				console.log(jwt);
 				user.JWT_Token = jwt;
 				
 				const record = await Users.update(user.id, user);
 				console.log(record, user);
 				localStorage.setItem('token', jwt);
 				goto('/dashboard');
-				Notify("Successfully Logged In");
+				Notify(`Logged in as ${user.Username}`);
 			} else {
 				Notify("Invalid Credentials", 3000, "error");
 			}
@@ -45,6 +40,8 @@
 		errorMessage = ''; // Reset error message
 	};
 
+	$:username = username.trim();
+	$:password = password.trim();
 	// Toggle password visibility
 	const togglePasswordVisibility = () => {
 		showPassword = !showPassword;

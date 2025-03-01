@@ -19,7 +19,6 @@
 
         console.log(isLoggedIn);
     }
-
 </script>
 
 <main>
