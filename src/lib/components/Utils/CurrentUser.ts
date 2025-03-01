@@ -1,9 +1,9 @@
 
-import fetchUser, { type User } from '../../../store/User';
+import { refreshData, type User } from '../../../store/User';
 import { GetID } from '$lib/components/Utils/Token';
 
 export default async function CurrentUser(): Promise<User | undefined> {
-	const users = await fetchUser();
+	const users = await refreshData();
 
 	const token = localStorage.getItem('token');
 	if (token === null) {
