@@ -72,6 +72,8 @@
 					type="text"
 					id="username"
 					bind:value={username}
+					minlength="4"
+					maxlength="12"
 					placeholder="Username"
 					class="w-full px-4 py-3 border border-gray-700 bg-transparent text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200"
 				/>
@@ -81,6 +83,8 @@
 				<input
 					type={showPassword ? 'text' : 'password'}
 					id="password"
+					minlength="8"
+					maxlength="50"
 					bind:value={password}
 					placeholder="Password"
 					class="w-full px-4 py-3 border border-gray-700 bg-transparent text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-200"

@@ -1,6 +1,6 @@
-import type { RecordModel } from "pocketbase";
-import Database from "../db/Database";
-import { stats } from "./Statistics";
+import type { RecordModel } from 'pocketbase';
+import Database from '../db/Database';
+import { stats } from './Statistics';
 
 export const users = new Database('Users');
 
@@ -15,27 +15,28 @@ export interface User {
 	Phone_Number: string;
 	Profile_Picture: string;
 	JWT_Token: string | null;
+	Admin: boolean;
 	Stats: RecordModel[]; // Stats is now an array
 }
 export async function refreshData(): Promise<User[]> {
-    const data = await users.findAll() as unknown as User[];
+	const data = (await users.findAll()) as unknown as User[];
 	const cache = await caches.open(CACHE_NAME);
 
-    const statsData = await stats.findAll();    
+	const statsData = await stats.findAll();
 
-    data.forEach((user) => {
-        const userStats = statsData.filter((stat) => stat.Owner === user.id);
-        if (userStats.length > 0) {
-            user.Stats = userStats;
-        } else {
-            user.Stats = []; // Default empty array if no stats found for the user
-        }
-    });
+	data.forEach((user) => {
+		const userStats = statsData.filter((stat) => stat.Owner === user.id);
+		if (userStats.length > 0) {
+			user.Stats = userStats;
+		} else {
+			user.Stats = []; // Default empty array if no stats found for the user
+		}
+	});
 	const response = new Response(JSON.stringify(data), {
 		headers: { 'Content-Type': 'application/json' }
 	});
 	cache.put('users-data', response);
-    return data;
+	return data;
 }
 
 const CACHE_NAME = 'user-cache';
