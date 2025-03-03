@@ -76,6 +76,21 @@
 	const navigateToEdit = () => {
 		goto('/dashboard/timer/edit');
 	};
+	
+	// Simple function to handle button clicks with proper event propagation
+	function handleButtonClick(action: string) {
+		// Using setTimeout to ensure the event completes before the action runs
+		setTimeout(() => {
+			if (action === 'start') {
+				startStopwatch();
+			} else if (action === 'pause') {
+				pauseStopwatch();
+			} else if (action === 'edit') {
+				navigateToEdit();
+			}
+		}, 10);
+		return false; // Prevent default
+	}
 </script>
 
 <div
@@ -206,11 +221,12 @@
 				<!-- Control buttons with improved mobile responsiveness -->
 				<div class="flex flex-col gap-3">
 					{#if $running}
-						<!-- Mobile-friendly pause button -->
+						<!-- Mobile-friendly pause button - fixed button click issues -->
 						<button
-							class="w-full bg-gradient-to-br from-red-500 to-red-600 py-4 px-6 rounded-lg font-medium text-white shadow-md transition-all duration-300 hover:shadow-red-500/20 active:scale-98 touch-manipulation"
-							on:click={pauseStopwatch}
+							class="w-full bg-gradient-to-br from-red-500 to-red-600 py-4 px-6 rounded-lg font-medium text-white shadow-md transition-all duration-300 hover:shadow-red-500/20 active:scale-98 cursor-pointer"
+							on:click={() => handleButtonClick('pause')}
 							type="button"
+							aria-label="Pause timer"
 						>
 							<span class="flex items-center justify-center">
 								<!-- Fixed pause icon with clear pause bars -->
@@ -231,11 +247,12 @@
 							</span>
 						</button>
 					{:else}
-						<!-- Mobile-friendly start button -->
+						<!-- Mobile-friendly start button - fixed button click issues -->
 						<button
-							class="w-full bg-gradient-to-br from-teal-500 to-cyan-600 py-4 px-6 rounded-lg font-medium text-white shadow-md transition-all duration-300 hover:shadow-teal-500/20 active:scale-98 touch-manipulation"
-							on:click={startStopwatch}
+							class="w-full bg-gradient-to-br from-teal-500 to-cyan-600 py-4 px-6 rounded-lg font-medium text-white shadow-md transition-all duration-300 hover:shadow-teal-500/20 active:scale-98 cursor-pointer"
+							on:click={() => handleButtonClick('start')}
 							type="button"
+							aria-label="Start timer"
 						>
 							<span class="flex items-center justify-center">
 								<svg
@@ -263,11 +280,12 @@
 						</button>
 					{/if}
 
-					<!-- Mobile-friendly edit button -->
+					<!-- Mobile-friendly edit button - fixed button click issues -->
 					<button
-						class="w-full py-4 px-6 rounded-lg bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-teal-200 font-medium transition-all duration-300 hover:bg-gray-700/50 touch-manipulation"
-						on:click={navigateToEdit}
+						on:click={() => handleButtonClick('edit')}
 						type="button"
+						aria-label="Edit timer"
+						class="w-full py-4 px-6 rounded-lg bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-teal-200 font-medium transition-all duration-300 hover:bg-gray-700/50 cursor-pointer"
 					>
 						<span class="flex items-center justify-center">
 							<svg
@@ -289,7 +307,6 @@
 					</button>
 				</div>
 			</div>
-
 			<!-- Stats Summary section with updated color scheme -->
 			<div class="px-6 py-4 border-t border-gray-700/30 bg-gray-900/70">
 				<div class="flex justify-between items-center mb-2">
@@ -326,18 +343,31 @@
 	button {
 		-webkit-tap-highlight-color: transparent;
 		outline: none;
-	}
-
-	/* Prevent text selection on buttons */
-	.touch-manipulation {
-		touch-action: manipulation;
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
 		user-select: none;
+		position: relative;
+		z-index: 10;
+		cursor: pointer;
 	}
 
 	/* Better scaling for active buttons on mobile */
 	.active\:scale-98:active {
 		transform: scale(0.98);
+		transition: transform 0.1s ease-in-out;
+	}
+
+	/* Mobile-specific button styles to ensure clickability */
+	@media (max-width: 768px) {
+		button {
+			-webkit-touch-callout: none;
+			-webkit-user-select: none;
+			user-select: none;
+			transform: translateZ(0);
+			will-change: transform;
+			pointer-events: auto !important;
+		}
+	
+		button span {
+			pointer-events: none;
+		}
 	}
 </style>
