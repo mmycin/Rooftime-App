@@ -50,11 +50,6 @@
 		try {
 			user = await FetchUserByID(id);
 			currentUser = await CurrentUser();
-
-            if(user.id === currentUser.id) {
-                goto('/dashboard/profile/');
-            }
-
 			loadingProgress = 100;
 
 			// Small delay to show complete progress

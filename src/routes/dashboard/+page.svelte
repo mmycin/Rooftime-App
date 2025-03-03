@@ -4,8 +4,10 @@
 	import type { User } from '../../store/User';
 	import { refreshData as RefreshUsers } from '../../store/User';
 	import { goto } from '$app/navigation';
+	import CurrentUser from '$lib/components/Utils/FetchUser';
 
 	let users: User[] = [];
+	let currentUser: User | undefined;
 	let isLoading = true;
 	let isRefreshing = false;
 
@@ -25,6 +27,7 @@
 	// Fetch users on mount
 	onMount(async () => {
 		users = await loadUsers();
+		currentUser = await CurrentUser();
 		isLoading = false;
 	});
 
@@ -272,7 +275,14 @@
 													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
 													style="cursor: pointer;"
 													aria-label="User details"
-													on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
+													on:click|preventDefault={() => {
+														if(currentUser && user.id === currentUser.id) {
+															goto('/dashboard/profile/');
+															return
+														}
+														goto(`/dashboard/user/${user.id}`)
+
+													}}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
@@ -428,7 +438,14 @@
 													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
 													style="cursor: pointer;"
 													aria-label="User details"
-													on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
+													on:click|preventDefault={() => {
+														if(currentUser && user.id === currentUser.id) {
+															goto('/dashboard/profile/');
+															return
+														}
+														goto(`/dashboard/user/${user.id}`)
+
+													}}
 												>
 													<svg
 														xmlns="http://www.w3.org/2000/svg"
