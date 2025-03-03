@@ -266,13 +266,30 @@
 											{/if}
 										</td>
 										<td class="px-4 py-4 text-sm md:text-base font-medium">
-											<a
-												class="truncate max-w-xs inline-block"
-												href="/dashboard/user/{user.id}"
-												style="cursor: pointer;"
-												on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
-												>{user.Name}</a
-											>
+											<div class="flex items-center space-x-1.5">
+												<span class="truncate max-w-xs inline-block">{user.Name}</span>
+												<button
+													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
+													style="cursor: pointer;"
+													aria-label="User details"
+													on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
+												>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-4 w-4"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															stroke-width="2"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+												</button>
+											</div>
 										</td>
 										<td class="px-4 py-4 text-sm md:text-base">
 											<span
@@ -405,14 +422,31 @@
 												{/if}
 											</td>
 											<td class="px-4 py-4 text-sm md:text-base font-medium">
-												<a
-													class="truncate max-w-xs inline-block"
-													href="/dashboard/user/{user.id}"
+											<div class="flex items-center space-x-1.5">
+												<span class="truncate max-w-xs inline-block">{user.Name}</span>
+												<button
+													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
 													style="cursor: pointer;"
+													aria-label="User details"
 													on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
-													>{user.Name}</a
 												>
-											</td>
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-4 w-4"
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+													>
+														<path
+															stroke-linecap="round"
+															stroke-linejoin="round"
+															stroke-width="2"
+															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+														/>
+													</svg>
+												</button>
+											</div>
+										</td>
 											<td class="px-4 py-4 text-sm md:text-base">
 												<span
 													class="font-mono bg-purple-900/20 px-2 py-1 rounded inline-flex items-center"

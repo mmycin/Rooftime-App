@@ -2,7 +2,7 @@
 	// @ts-nocheck
 	import { onMount, afterUpdate } from 'svelte';
 	import { Chart, registerables } from 'chart.js';
-	import CurrentUser from '$lib/components/Utils/CurrentUser';
+	import CurrentUser from '$lib/components/Utils/FetchUser';
 	import { Generate } from '$lib/components/Utils/AI_Chat';
 	import Typed from 'typed.js';
 
@@ -10,8 +10,8 @@
 	Chart.register(...registerables);
 
 	let currentUser;
-	let chart;
 	let isLoading = true;
+	let chart;
 	let generatedResponse = '';
 	let typedInstance;
 	let loadingProgress = 0;
