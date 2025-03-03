@@ -16,8 +16,9 @@ export interface User {
 	Profile_Picture: string;
 	JWT_Token: string | null;
 	Admin: boolean;
-	Stats: RecordModel[]; // Stats is now an array
+	Stats: RecordModel[]; 
 }
+
 export async function refreshData(): Promise<User[]> {
 	const data = (await users.findAll()) as unknown as User[];
 	const cache = await caches.open(CACHE_NAME);

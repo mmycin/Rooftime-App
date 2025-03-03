@@ -2,7 +2,8 @@
 	import { onMount } from 'svelte';
 	import fetchUser from '../../store/User';
 	import type { User } from '../../store/User';
-    import { refreshData as RefreshUsers } from '../../store/User';
+	import { refreshData as RefreshUsers } from '../../store/User';
+	import { goto } from '$app/navigation';
 
 	let users: User[] = [];
 	let isLoading = true;
@@ -27,17 +28,17 @@
 		isLoading = false;
 	});
 
-    const refreshData = async () => {
-        try {
-            isLoading = true;
-            const newData = await RefreshUsers();
-            users = newData;
-        } catch (error) {
-            console.error('Error refreshing data:', error);
-        } finally {
-            isLoading = false;
-        }
-    }
+	const refreshData = async () => {
+		try {
+			isLoading = true;
+			const newData = await RefreshUsers();
+			users = newData;
+		} catch (error) {
+			console.error('Error refreshing data:', error);
+		} finally {
+			isLoading = false;
+		}
+	};
 
 	// Helper to calculate total time this week
 	const calculateTimeThisWeek = (dailyStats: { [key: string]: number }): number => {
@@ -109,58 +110,96 @@
 			</button>
 		</div>
 
-		 {#if isLoading}
-      <!-- Loading Animation with Table Skeleton -->
-      <div class="space-y-6">
-        <!-- Daily Table Skeleton -->
-        <section class="mb-6">
-          <h2 class="text-xl md:text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Daily Benchmark</h2>
-          <div class="backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border border-purple-900/30 bg-gray-800/20">
-            <div class="animate-pulse-gradient">
-              <!-- Table header skeleton -->
-              <div class="grid grid-cols-3 gap-4 border-b border-gray-700/50 pb-2 mb-2">
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-6"></div>
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-20"></div>
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-32"></div>
-              </div>
-              <!-- Table rows skeleton -->
-              {#each Array(5) as _, i}
-                <div class="grid grid-cols-3 gap-4 py-3 border-b border-gray-700/20">
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-4"></div>
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-16 md:w-24"></div>
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-12 md:w-20"></div>
-                </div>
-              {/each}
-            </div>
-          </div>
-        </section>
+		{#if isLoading}
+			<!-- Loading Animation with Table Skeleton -->
+			<div class="space-y-6">
+				<!-- Daily Table Skeleton -->
+				<section class="mb-6">
+					<h2
+						class="text-xl md:text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500"
+					>
+						Daily Benchmark
+					</h2>
+					<div
+						class="backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border border-purple-900/30 bg-gray-800/20"
+					>
+						<div class="animate-pulse-gradient">
+							<!-- Table header skeleton -->
+							<div class="grid grid-cols-3 gap-4 border-b border-gray-700/50 pb-2 mb-2">
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-6"
+								></div>
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-20"
+								></div>
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-32"
+								></div>
+							</div>
+							<!-- Table rows skeleton -->
+							{#each Array(5) as _, i}
+								<div class="grid grid-cols-3 gap-4 py-3 border-b border-gray-700/20">
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-4"
+									></div>
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-16 md:w-24"
+									></div>
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-12 md:w-20"
+									></div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</section>
 
-        <!-- Weekly Table Skeleton -->
-        <section>
-          <h2 class="text-xl md:text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">Weekly Benchmark</h2>
-          <div class="backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border border-purple-900/30 bg-gray-800/20">
-            <div class="animate-pulse-gradient mb-4">
-              <div class="h-6 bg-gradient-to-r from-gray-700/40 to-purple-800/20 rounded-full w-32"></div>
-            </div>
-            <div class="animate-pulse-gradient">
-              <!-- Table header skeleton -->
-              <div class="grid grid-cols-3 gap-4 border-b border-gray-700/50 pb-2 mb-2">
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-6"></div>
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-20"></div>
-                <div class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-32"></div>
-              </div>
-              <!-- Table rows skeleton -->
-              {#each Array(5) as _, i}
-                <div class="grid grid-cols-3 gap-4 py-3 border-b border-gray-700/20">
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-4"></div>
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-16 md:w-24"></div>
-                  <div class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-12 md:w-20"></div>
-                </div>
-              {/each}
-            </div>
-          </div>
-        </section>
-      </div>
+				<!-- Weekly Table Skeleton -->
+				<section>
+					<h2
+						class="text-xl md:text-2xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500"
+					>
+						Weekly Benchmark
+					</h2>
+					<div
+						class="backdrop-blur-sm rounded-xl p-3 md:p-4 shadow-xl border border-purple-900/30 bg-gray-800/20"
+					>
+						<div class="animate-pulse-gradient mb-4">
+							<div
+								class="h-6 bg-gradient-to-r from-gray-700/40 to-purple-800/20 rounded-full w-32"
+							></div>
+						</div>
+						<div class="animate-pulse-gradient">
+							<!-- Table header skeleton -->
+							<div class="grid grid-cols-3 gap-4 border-b border-gray-700/50 pb-2 mb-2">
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-6"
+								></div>
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-20"
+								></div>
+								<div
+									class="h-4 bg-gradient-to-r from-gray-700/40 to-purple-800/30 rounded-full w-32"
+								></div>
+							</div>
+							<!-- Table rows skeleton -->
+							{#each Array(5) as _, i}
+								<div class="grid grid-cols-3 gap-4 py-3 border-b border-gray-700/20">
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-4"
+									></div>
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-16 md:w-24"
+									></div>
+									<div
+										class="h-4 bg-gradient-to-r from-gray-700/30 to-purple-800/20 rounded-full w-12 md:w-20"
+									></div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				</section>
+			</div>
 		{:else}
 			<!-- Daily Leaderboard -->
 			<section class="mb-8 md:mb-12">
@@ -227,7 +266,13 @@
 											{/if}
 										</td>
 										<td class="px-4 py-4 text-sm md:text-base font-medium">
-											<span class="truncate max-w-xs inline-block">{user.Name}</span>
+											<a
+												class="truncate max-w-xs inline-block"
+												href="/dashboard/user/{user.id}"
+												style="cursor: pointer;"
+												on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
+												>{user.Name}</a
+											>
 										</td>
 										<td class="px-4 py-4 text-sm md:text-base">
 											<span
@@ -360,7 +405,13 @@
 												{/if}
 											</td>
 											<td class="px-4 py-4 text-sm md:text-base font-medium">
-												<span class="truncate max-w-xs inline-block">{user.Name}</span>
+												<a
+													class="truncate max-w-xs inline-block"
+													href="/dashboard/user/{user.id}"
+													style="cursor: pointer;"
+													on:click|preventDefault={() => goto(`/dashboard/user/${user.id}`)}
+													>{user.Name}</a
+												>
 											</td>
 											<td class="px-4 py-4 text-sm md:text-base">
 												<span
