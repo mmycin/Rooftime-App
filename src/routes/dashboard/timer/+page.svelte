@@ -7,6 +7,7 @@
 	import { goto } from '$app/navigation';
 	import CurrentUser from '$lib/components/Utils/FetchUser';
 	import { stats as RecordStats } from '../../../store/Statistics';
+	import { ReLU } from '$lib/components/Utils/Algorithms';
 
 	let user: User | undefined;
 	let stats: RecordModel[] = [];
@@ -18,9 +19,8 @@
 	let isLoading = true;
 
 	// Simpler time tracking to avoid animation bugs
-	const minutes = derived(stopwatchTime, ($time) => Math.floor($time / 60));
+	const minutes = derived(stopwatchTime, ($time) => ReLU($time / 60));
 	const seconds = derived(stopwatchTime, ($time) => $time % 60);
-	const hours = derived(stopwatchTime, ($time) => Math.floor($time / 3600));
 
 	onMount(async () => {
 		try {
@@ -43,15 +43,9 @@
 		if (interval) clearInterval(interval);
 	});
 
-	const formatTime = (time: number) => {
-		const minutes = Math.floor(time / 60);
-		const seconds = time % 60;
-		return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-	};
-
 	const formatHMSTime = (time: number) => {
-		const hours = Math.floor(time / 3600);
-		const minutes = Math.floor((time % 3600) / 60);
+		const hours = ReLU(time / 3600);
+		const minutes = ReLU((time % 3600) / 60);
 		const seconds = time % 60;
 		return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 	};
@@ -66,7 +60,7 @@
 	const pauseStopwatch = () => {
 		running.set(false);
 		clearInterval(interval); // Stop the stopwatch interval
-		const ceilTime = Math.ceil($stopwatchTime / 60);
+		const ceilTime = ReLU($stopwatchTime / 60);
 		// Update the time in the user stats or make an API call if needed
 		userStat.Time_Today = ceilTime; // Store the floored minutes back in userStat
 		console.log(userStat);
@@ -207,7 +201,7 @@
 				<div class="mb-6">
 					<div class="text-xs text-gray-400 mb-2 flex justify-between items-center">
 						<span class="font-light">TODAY'S PROGRESS</span>
-						<span class="font-mono text-teal-300">{Math.floor($stopwatchTime / 60)} min</span>
+						<span class="font-mono text-teal-300">{ReLU($stopwatchTime / 60)} min</span>
 					</div>
 					<!-- Progress bar with improved color scheme -->
 					<div class="w-full h-2 bg-gray-800/80 rounded-full overflow-hidden">
@@ -315,7 +309,7 @@
 				</div>
 				<div class="flex justify-between items-center">
 					<div class="text-xs text-gray-500">Total Today</div>
-					<div class="text-teal-300 font-mono">{Math.floor($stopwatchTime / 60)} min</div>
+					<div class="text-teal-300 font-mono">{ReLU($stopwatchTime / 60)} min</div>
 				</div>
 			</div>
 		</div>

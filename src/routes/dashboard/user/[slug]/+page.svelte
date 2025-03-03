@@ -7,7 +7,7 @@
 	import { Generate } from '$lib/components/Utils/AI_Chat.js';
 	import CurrentUser from '$lib/components/Utils/FetchUser.js';
 	import Typed from 'typed.js';
-	import Logout from '$lib/components/Utils/Logout';
+	import Logout from '$lib/components/Utils/Logout.js';
 	import { goto } from '$app/navigation';
 
 	Chart.register(...registerables);
