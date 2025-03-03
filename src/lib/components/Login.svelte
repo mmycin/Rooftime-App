@@ -21,7 +21,7 @@
 			return;
 		}
 
-		const user = users.filter((user) => user.Username.toLowerCase() === username.toLowerCase())[0];
+		const user = users.filter((user) => user.Username.toLowerCase().trim() === username.toLowerCase().trim())[0];
 
 		if(user) {
 			if(await VerifyPassword(password, user.Password)) {
