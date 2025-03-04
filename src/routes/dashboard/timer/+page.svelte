@@ -1,25 +1,24 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { writable, derived } from 'svelte/store';
-	import type { User } from '../../../store/User';
 	import fetchStats from '../../../store/Statistics';
 	import type { RecordModel } from 'pocketbase';
 	import { goto } from '$app/navigation';
 	import CurrentUser from '$lib/components/Utils/FetchUser';
+	import type { User } from '../../../store/User';
 	import { stats as RecordStats } from '../../../store/Statistics';
 	import { ReLU } from '$lib/components/Utils/Algorithms';
+	import { get, writable, derived } from 'svelte/store';
 
 	let user: User | undefined;
 	let stats: RecordModel[] = [];
 	let userStat: RecordModel;
 	let timeToday: number = 0; // Time is in minutes
 	let running = writable(false);
-	let stopwatchTime = writable(timeToday * 60); // Convert minutes to seconds for stopwatch handling
 	let interval: NodeJS.Timeout;
 	let isLoading = true;
+	let stopwatchTime = writable(timeToday * 60); // Convert minutes to seconds
 
-	// Simpler time tracking to avoid animation bugs
-	const minutes = derived(stopwatchTime, ($time) => ReLU($time / 60));
+	const minutes = derived(stopwatchTime, ($time) => Math.floor($time / 60));
 	const seconds = derived(stopwatchTime, ($time) => $time % 60);
 
 	onMount(async () => {
@@ -60,17 +59,18 @@
 	const pauseStopwatch = () => {
 		running.set(false);
 		clearInterval(interval); // Stop the stopwatch interval
-		const ceilTime = ReLU($stopwatchTime / 60);
-		// Update the time in the user stats or make an API call if needed
-		userStat.Time_Today = ceilTime; // Store the floored minutes back in userStat
-		console.log(userStat);
-		RecordStats.update(userStat!.id, userStat); // Update the user's stats in the database
+
+		const totalMinutes = ReLU(get(stopwatchTime) / 60); // Get the value from store
+		userStat.Time_Today = totalMinutes; // Store floored minutes back in userStat
+
+		console.log('Updated Time:', userStat.Time_Today);
+		RecordStats.update(userStat.id, userStat); // Update the user's stats in the database
 	};
 
 	const navigateToEdit = () => {
 		goto('/dashboard/timer/edit');
 	};
-	
+
 	// Simple function to handle button clicks with proper event propagation
 	function handleButtonClick(action: string) {
 		// Using setTimeout to ensure the event completes before the action runs
@@ -316,7 +316,6 @@
 	{/if}
 </div>
 
-
 <style>
 	/* Custom animations */
 	@keyframes pulse-slow {
@@ -359,7 +358,7 @@
 			will-change: transform;
 			pointer-events: auto !important;
 		}
-	
+
 		button span {
 			pointer-events: none;
 		}
