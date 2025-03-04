@@ -1,0 +1,1 @@
+export type FetchMode = "fetch" | "refresh" | null;

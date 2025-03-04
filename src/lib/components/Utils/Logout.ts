@@ -4,6 +4,6 @@ import Notify from 'notifier-mycin';
 
 export default function Logout() {
 	localStorage.removeItem('token');
-	Notify('Logged Out Successfully');
+	Notify('Logged Out');
 	goto('/');
 }

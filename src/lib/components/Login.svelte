@@ -8,6 +8,7 @@
 	import { CreateToken } from './Utils/Token';
 	import { users as Users } from '../../store/User';
 	import { VerifyPassword } from './Utils/HashPass';
+	import type { FetchMode } from './Utils/Types';
 
 	let username = '';
 	let password = '';
@@ -29,10 +30,11 @@
 			if (await VerifyPassword(password, user.Password)) {
 				const jwt = await CreateToken(user.id);
 				user.JWT_Token = jwt;
-
 				const record = await Users.update(user.id, user);
 				console.log(record, user);
 				localStorage.setItem('token', jwt);
+				const mode: FetchMode = "fetch";
+				localStorage.setItem("mode", mode);
 				goto('/dashboard');
 				Notify(`Logged in as ${user.Username}`);
 			} else {

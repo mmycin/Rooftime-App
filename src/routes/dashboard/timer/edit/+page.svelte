@@ -10,6 +10,7 @@
 	import { fade, slide } from 'svelte/transition';
 	import { circOut } from 'svelte/easing';
 	import { spring } from 'svelte/motion';
+	import { ReLU } from '$lib/components/Utils/Algorithms';
 
 	let currentUser: User | undefined;
 	let stats: RecordModel[];
@@ -44,7 +45,7 @@
 		try {
 			userStat!.Time_Today = $timeToday;
 			await Statistics.update(userStat!.id, userStat!);
-			Notify('Time Updated Successfully');
+			Notify('Time Updated');
 			isGoBackVisible = true;
 			initialTime = $timeToday;
 			isSaveEnabled = false;
@@ -64,8 +65,8 @@
 
 	// Format time display
 	function formatTime(minutes: number): string {
-		const hours = Math.floor(minutes / 60);
-		const remainingMinutes = minutes % 60;
+		const hours = ReLU(minutes / 60);
+		const remainingMinutes = ReLU(minutes % 60);
 		return hours > 0 
 			? `${hours} hr ${remainingMinutes} min` 
 			: `${minutes} min`;
@@ -85,9 +86,9 @@
 			
 			const handleTouchMove = (moveEvent: TouchEvent) => {
 				const touchMoveY = moveEvent.touches[0].clientY;
-				const diff = touchStartY - touchMoveY;
+				const diff = ReLU(touchStartY - touchMoveY);
 				delta = diff > 0 ? -1 : 1;
-				timeToday.set(Math.min(Math.max(0, $timeToday + delta), 1440));
+				timeToday.set(ReLU(Math.min(Math.max(0, $timeToday + delta), 1440)));
 				checkChanges();
 				document.removeEventListener('touchmove', handleTouchMove);
 				document.removeEventListener('touchend', handleTouchEnd);
@@ -103,7 +104,7 @@
 			return;
 		}
 
-		timeToday.set(Math.min(Math.max(0, $timeToday + delta), 1440));
+		timeToday.set(ReLU(Math.min(Math.max(0, $timeToday + delta), 1440)));
 		checkChanges();
 	}
 

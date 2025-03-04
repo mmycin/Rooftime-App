@@ -5,6 +5,7 @@
 	import { refreshData as RefreshUsers } from '../../store/User';
 	import { goto } from '$app/navigation';
 	import CurrentUser from '$lib/components/Utils/FetchUser';
+	import type { FetchMode } from '$lib/components/Utils/Types';
 
 	let users: User[] = [];
 	let currentUser: User | undefined;
@@ -16,17 +17,26 @@
 
 	// Function to load users data
 	const loadUsers = async () => {
+		let mode: FetchMode = localStorage.getItem('mode') as FetchMode;
 		try {
-			return await fetchUser();
+
+			if (mode === "fetch") {
+				mode = "refresh";
+				return await fetchUser();
+			} else {
+				return await refreshData();
+			}
 		} catch (error) {
 			console.error('Error fetching users:', error);
 			return [];
+		} finally {
+			localStorage.setItem('mode', mode as string);
 		}
 	};
 
 	// Fetch users on mount
 	onMount(async () => {
-		users = await loadUsers();
+		users = await loadUsers() as User[];
 		currentUser = await CurrentUser();
 		isLoading = false;
 	});
