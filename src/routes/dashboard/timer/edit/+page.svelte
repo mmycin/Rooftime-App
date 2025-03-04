@@ -45,7 +45,7 @@
 		try {
 			userStat!.Time_Today = $timeToday;
 			await Statistics.update(userStat!.id, userStat!);
-			Notify('Time Updated');
+			Notify('Time Updated Successfully');
 			isGoBackVisible = true;
 			initialTime = $timeToday;
 			isSaveEnabled = false;
@@ -135,8 +135,9 @@
 
 {#if !isLoading}
 	<div 
-		class="flex items-center justify-center min-h-screen px-4 py-6 bg-gray-900" 
+		class="flex items-center justify-center min-h-screen px-4 py-6 bg-gray-900 overflow-y-auto" 
 		transition:fade={{ duration: 300, easing: circOut }}
+		style="width: 100vw; height: 100vh; overflow-y: auto;"
 	>
 		<div 
 			class="w-full max-w-md bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden"
@@ -152,8 +153,8 @@
 						<div 
 							class="relative w-full aspect-square bg-gray-700 rounded-full border-4 border-gray-600 
 								   flex items-center justify-center select-none cursor-pointer touch-none"
-							on:wheel|preventDefault={handleWheel}
-							on:touchstart|preventDefault={handleWheel}
+							on:wheel={handleWheel}
+							on:touchmove={handleWheel} 
 							bind:this={wheelRef}
 						>
 							<div class="text-center">
@@ -164,13 +165,6 @@
 								<p class="text-gray-400 text-lg mt-2">
 									{formatTime(Math.round($timeToday))}
 								</p>
-							</div>
-
-							<div class="absolute top-0 left-0 w-full h-full pointer-events-none">
-								<div class="absolute top-2 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-teal-500 rounded"></div>
-								<div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-2 h-6 bg-teal-500 rounded"></div>
-								<div class="absolute left-2 top-1/2 transform -translate-y-1/2 w-6 h-2 bg-teal-500 rounded"></div>
-								<div class="absolute right-2 top-1/2 transform -translate-y-1/2 w-6 h-2 bg-teal-500 rounded"></div>
 							</div>
 						</div>
 					{:else}
@@ -208,7 +202,7 @@
 						<button
 							class="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-bold 
 								   py-3 px-4 rounded-lg transition duration-300 ease-in-out 
-								   transform hover:scale-[1.02] active:scale-[0.98]"
+								   transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
 							on:click={toggleEditMode}
 						>
 							{isEditMode ? 'Wheel Mode' : 'Text Mode'}
@@ -226,8 +220,7 @@
 					<button
 						class="w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 
 							   rounded-lg transition duration-300 ease-in-out transform 
-							   hover:scale-[1.02] active:scale-[0.98]
-							   disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+							   hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
 						on:click={saveTime}
 						disabled={!isSaveEnabled}
 					>
@@ -266,11 +259,12 @@
 	</div>
 {/if}
 
+
 <style>
 	/* Prevent number input spinner */
 	input[type="number"]::-webkit-inner-spin-button,
 	input[type="number"]::-webkit-outer-spin-button {
-		-webkit-appearance: none;
+		/* -webkit-appearance: none; */
 		margin: 0;
 	}
 </style>

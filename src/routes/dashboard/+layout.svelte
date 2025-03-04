@@ -28,3 +28,9 @@
         <Footer />
 	{/if}
 </div>
+
+<style>
+	:global(body) {
+		scroll-behavior: smooth;
+	}
+</style>
