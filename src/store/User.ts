@@ -13,6 +13,7 @@ export interface User {
 	Password: string;
 	About_Info: string;
 	Phone_Number: string;
+	Data: string[];
 	Profile_Picture: string;
 	JWT_Token: string | null;
 	Admin: boolean;

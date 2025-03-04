@@ -1,5 +1,5 @@
-import { refreshData, type User } from '../../../store/User';
-import { GetID } from '$lib/components/Utils/Token';
+import { refreshData, type User } from '../../store/User';
+import { GetID } from '$lib/Utils/Token';
 
 export default async function CurrentUser(): Promise<User | undefined> {
 	const users = await refreshData();

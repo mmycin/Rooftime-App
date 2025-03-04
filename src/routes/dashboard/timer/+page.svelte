@@ -3,10 +3,10 @@
 	import fetchStats from '../../../store/Statistics';
 	import type { RecordModel } from 'pocketbase';
 	import { goto } from '$app/navigation';
-	import CurrentUser from '$lib/components/Utils/FetchUser';
+	import CurrentUser from '$lib/Utils/FetchUser';
 	import type { User } from '../../../store/User';
 	import { stats as RecordStats } from '../../../store/Statistics';
-	import { ReLU } from '$lib/components/Utils/Algorithms';
+	import { ReLU } from '$lib/Utils/Algorithms';
 	import { get, writable, derived } from 'svelte/store';
 
 	let user: User | undefined;

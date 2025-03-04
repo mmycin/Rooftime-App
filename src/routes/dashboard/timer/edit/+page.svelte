@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { User } from '../../../../store/User';
-	import CurrentUser from '$lib/components/Utils/FetchUser';
+	import CurrentUser from '$lib/Utils/FetchUser';
 	import type { RecordModel } from 'pocketbase';
 	import fetchStats, { stats as Statistics } from '../../../../store/Statistics';
     // @ts-ignore
@@ -10,7 +10,7 @@
 	import { fade, slide } from 'svelte/transition';
 	import { circOut } from 'svelte/easing';
 	import { spring } from 'svelte/motion';
-	import { ReLU } from '$lib/components/Utils/Algorithms';
+	import { ReLU } from '$lib/Utils/Algorithms';
 
 	let currentUser: User | undefined;
 	let stats: RecordModel[];

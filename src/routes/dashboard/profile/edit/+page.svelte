@@ -2,8 +2,8 @@
 	// @ts-nocheck
 	import { onMount } from 'svelte';
 	import { users, type User } from '../../../../store/User';
-	import CurrentUser from '$lib/components/Utils/FetchUser';
-	import { HashPassword } from '$lib/components/Utils/HashPass';
+	import CurrentUser from '$lib/Utils/FetchUser';
+	import { HashPassword } from '$lib/Utils/HashPass';
 	// @ts-ignore
 	import Notify from 'notifier-mycin';
 	import { fade, fly } from 'svelte/transition';

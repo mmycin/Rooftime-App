@@ -5,3 +5,7 @@ export function ReLU(num: number): number {
     const count = num_decimal > 0.5 ? 1 : 0;
     return num_int + count;
 }
+
+export const calculateTimeThisWeek = (dailyStats: { [key: string]: number }): number => {
+	return Object.values(dailyStats).reduce((sum, time) => sum + time, 0);
+};
