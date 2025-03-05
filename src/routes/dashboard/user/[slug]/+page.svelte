@@ -1,13 +1,13 @@
 <script lang="ts">
 	// @ts-nocheck
-	import { FetchUserByID } from '$lib/components/Utils/FetchUser.js';
+	import { FetchUserByID } from '$lib/Utils/FetchUser.js';
 	import { afterUpdate, onMount } from 'svelte';
 	import type { User } from '../../../../store/User.js';
 	import { Chart, registerables } from 'chart.js';
-	import { Generate } from '$lib/components/Utils/AI_Chat.js';
-	import CurrentUser from '$lib/components/Utils/FetchUser.js';
+	import { Generate } from '$lib/Utils/AI_Chat.js';
+	import CurrentUser from '$lib/Utils/FetchUser.js';
 	import Typed from 'typed.js';
-	import Logout from '$lib/components/Utils/Logout.js';
+	import Logout from '$lib/Utils/Logout.js';
 	import { goto } from '$app/navigation';
 
 	Chart.register(...registerables);

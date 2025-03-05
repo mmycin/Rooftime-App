@@ -5,10 +5,10 @@
 
 	// @ts-ignore
 	import Notify from 'notifier-mycin';
-	import { CreateToken } from './Utils/Token';
+	import { CreateToken } from '../Utils/Token';
 	import { users as Users } from '../../store/User';
-	import { VerifyPassword } from './Utils/HashPass';
-	import type { FetchMode } from './Utils/Types';
+	import { VerifyPassword } from '../Utils/HashPass';
+	import type { FetchMode } from '../Utils/Types';
 
 	let username = '';
 	let password = '';

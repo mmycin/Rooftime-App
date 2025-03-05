@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-	import CurrentUser from '$lib/components/Utils/FetchUser';
+	import CurrentUser from '$lib/Utils/FetchUser';
 	import { onMount } from 'svelte';
 	import type { User } from "../../../store/User";
-	import Logout from '$lib/components/Utils/Logout';
+	import Logout from '$lib/Utils/Logout';
 	
 	let currentUser: User | undefined;
 	let loading = true;

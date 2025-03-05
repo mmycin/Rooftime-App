@@ -2,8 +2,8 @@
 	// @ts-nocheck
 	import { onMount, afterUpdate } from 'svelte';
 	import { Chart, registerables } from 'chart.js';
-	import CurrentUser from '$lib/components/Utils/FetchUser';
-	import { Generate } from '$lib/components/Utils/AI_Chat';
+	import CurrentUser from '$lib/Utils/FetchUser';
+	import { Generate } from '$lib/Utils/AI_Chat';
 	import Typed from 'typed.js';
 
 	// Register Chart.js components

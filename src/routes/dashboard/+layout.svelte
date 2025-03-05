@@ -1,7 +1,7 @@
 <script>
 	import { goto } from '$app/navigation';
 	import Footer from '$lib/components/Layouts/Footer.svelte';
-	import { IsExpired, VerifyToken } from '$lib/components/Utils/Token';
+	import { IsExpired, VerifyToken } from '$lib/Utils/Token';
 
 	let isLoggedIn = true;
 

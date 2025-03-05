@@ -29,7 +29,7 @@ class Database {
 	}
 
 	async update(id: string, data: object) {
-		return await pb.collection(this.collection).update(id, data);
+		return await pb.collection(this.collection).update(id, data, { $autoCancel: false });
 	}
 
 	async delete(id: string) {

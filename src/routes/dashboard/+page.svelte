@@ -4,8 +4,10 @@
 	import type { User } from '../../store/User';
 	import { refreshData as RefreshUsers } from '../../store/User';
 	import { goto } from '$app/navigation';
-	import CurrentUser from '$lib/components/Utils/FetchUser';
-	import type { FetchMode } from '$lib/components/Utils/Types';
+	import CurrentUser from '$lib/Utils/FetchUser';
+	import type { FetchMode } from '$lib/Utils/Types';
+	import UpdateLeaderboard from '$lib/Utils/Leaderboard';
+	import { calculateTimeThisWeek } from '$lib/Utils/Algorithms';
 
 	let users: User[] = [];
 	let currentUser: User | undefined;
@@ -19,12 +21,11 @@
 	const loadUsers = async () => {
 		let mode: FetchMode = localStorage.getItem('mode') as FetchMode;
 		try {
-
-			if (mode === "fetch") {
-				mode = "refresh";
+			if (mode === 'fetch') {
+				mode = 'refresh';
 				return await fetchUser();
 			} else {
-				return await refreshData();
+				return await RefreshUsers();
 			}
 		} catch (error) {
 			console.error('Error fetching users:', error);
@@ -36,7 +37,9 @@
 
 	// Fetch users on mount
 	onMount(async () => {
-		users = await loadUsers() as User[];
+		users = (await loadUsers()) as User[];
+
+		users = await UpdateLeaderboard(users) as User[];
 		currentUser = await CurrentUser();
 		isLoading = false;
 	});
@@ -54,9 +57,7 @@
 	};
 
 	// Helper to calculate total time this week
-	const calculateTimeThisWeek = (dailyStats: { [key: string]: number }): number => {
-		return Object.values(dailyStats).reduce((sum, time) => sum + time, 0);
-	};
+	
 
 	// Daily Leaderboard: Sorted by Time_Today
 	const dailyLeaderboard = () => {
@@ -75,7 +76,7 @@
 			.filter((user) => user.Stats.length > 0)
 			.map((user) => ({
 				...user,
-				Time_This_Week: calculateTimeThisWeek(user.Stats[0].Daily_Stats),
+				Time_This_Week: calculateTimeThisWeek(user.Stats[0].Daily_Stats) + user.Stats[0].Time_Today,
 				Score_Week: user.Stats[0].Score_Week,
 				Score_Alltime: user.Stats[0].Score_Alltime
 			}))
@@ -286,12 +287,11 @@
 													style="cursor: pointer;"
 													aria-label="User details"
 													on:click|preventDefault={() => {
-														if(currentUser && user.id === currentUser.id) {
+														if (currentUser && user.id === currentUser.id) {
 															goto('/dashboard/profile/');
-															return
+															return;
 														}
-														goto(`/dashboard/user/${user.id}`)
-
+														goto(`/dashboard/user/${user.id}`);
 													}}
 												>
 													<svg
@@ -442,38 +442,37 @@
 												{/if}
 											</td>
 											<td class="px-4 py-4 text-sm md:text-base font-medium">
-											<div class="flex items-center space-x-1.5">
-												<span class="truncate max-w-xs inline-block">{user.Name}</span>
-												<button
-													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
-													style="cursor: pointer;"
-													aria-label="User details"
-													on:click|preventDefault={() => {
-														if(currentUser && user.id === currentUser.id) {
-															goto('/dashboard/profile/');
-															return
-														}
-														goto(`/dashboard/user/${user.id}`)
-
-													}}
-												>
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														class="h-4 w-4"
-														fill="none"
-														viewBox="0 0 24 24"
-														stroke="currentColor"
+												<div class="flex items-center space-x-1.5">
+													<span class="truncate max-w-xs inline-block">{user.Name}</span>
+													<button
+														class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
+														style="cursor: pointer;"
+														aria-label="User details"
+														on:click|preventDefault={() => {
+															if (currentUser && user.id === currentUser.id) {
+																goto('/dashboard/profile/');
+																return;
+															}
+															goto(`/dashboard/user/${user.id}`);
+														}}
 													>
-														<path
-															stroke-linecap="round"
-															stroke-linejoin="round"
-															stroke-width="2"
-															d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-														/>
-													</svg>
-												</button>
-											</div>
-										</td>
+														<svg
+															xmlns="http://www.w3.org/2000/svg"
+															class="h-4 w-4"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke="currentColor"
+														>
+															<path
+																stroke-linecap="round"
+																stroke-linejoin="round"
+																stroke-width="2"
+																d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+															/>
+														</svg>
+													</button>
+												</div>
+											</td>
 											<td class="px-4 py-4 text-sm md:text-base">
 												<span
 													class="font-mono bg-purple-900/20 px-2 py-1 rounded inline-flex items-center"
