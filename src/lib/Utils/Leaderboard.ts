@@ -22,18 +22,37 @@ export function UpdateScore(users: Members): Members {
 		return b.Stats[0].Time_Total - a.Stats[0].Time_Total;
 	});
 
-	if (users!.length <= 3) {
-		for (let i = 0; i < users!.length; i++) {
-			users![i].Stats[0].Score_Week = Score[i];
-			users![i].Stats[0].Score_Alltime += Score[i];
+	
+	let hasActiveUser = false;
+
+	// Check if any user has Time_Today > 0
+	users?.forEach((user) => {
+		if (user.Stats[0].Time_Today > 0) {
+			hasActiveUser = true;
 		}
-	} else {
-		for (let i = 0; i < 2; i++) {
-			users![i].Stats[0].Score_Week = Score[i];
-			users![i].Stats[0].Score_Alltime += Score[i];
-		}
+	});
+
+	// If all users have Time_Today === 0, return without updating scores
+	if (!hasActiveUser) {
+		return users;
 	}
+
+	// Sort users by Time_Today in descending order
+	users?.sort((a, b) => b.Stats[0].Time_Today - a.Stats[0].Time_Today);
+
+	// Assign scores to the top 3 users
+	const Score = [5, 3, 1]; // Score mapping
+	const range = Math.min(users!.length, 3);
+
+	users!.forEach((user, index) => {
+		if (index < range) {
+			user.Stats[0].Score_Week = Score[index];
+			user.Stats[0].Score_Alltime += Score[index];
+		}
+	});
+
 	return users;
+
 }
 
 export function UpdateWeeklyData(users: Members): Members {
@@ -44,7 +63,7 @@ export function UpdateWeeklyData(users: Members): Members {
 	users?.forEach(async (user) => {
 		totalDays.push(objectLength(user!.Stats[0].Daily_Stats));
 
-		if(maxNumber(totalDays) >= 7) {
+		if (maxNumber(totalDays) >= 7) {
 			user.Stats[0].Daily_Stats = {};
 			user.Stats[0].Time_Today = 0;
 			user.Stats[0].Score_Week = 0;
@@ -86,7 +105,6 @@ export function UpdateWeeklyData(users: Members): Members {
 						user!.Stats[0].Daily_Stats[maxDays] = user!.Stats[0].Time_Today;
 					}
 
-					
 					user!.Stats[0].Time_Today = 0;
 				}
 			} else {

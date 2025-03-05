@@ -121,7 +121,7 @@
 						</div>
 						
 						<!-- Admin badge if applicable -->
-						{#if currentUser.Admin}
+						<!-- {#if currentUser.Admin}
 							<div class="bg-gray-800/30 backdrop-blur-sm rounded-xl shadow-lg border border-amber-700/30 overflow-hidden">
 								<div class="px-5 py-5 bg-gradient-to-r from-amber-900/30 to-amber-800/20">
 									<div class="flex items-center">
@@ -137,7 +137,7 @@
 									</div>
 								</div>
 							</div>
-						{/if}
+						{/if} -->
 					</div>
 					
 					<!-- Right column - Contact & Account Info -->

@@ -5,6 +5,7 @@
 	import CurrentUser from '$lib/Utils/FetchUser';
 	import { Generate } from '$lib/Utils/AI_Chat';
 	import Typed from 'typed.js';
+	import { objectLength } from '$lib/Utils/Leaderboard';
 
 	// Register Chart.js components
 	Chart.register(...registerables);
@@ -17,6 +18,8 @@
 	let loadingProgress = 0;
 	let windowWidth;
 	let isMobile = false;
+
+	let lenData;
 
 	// Track window resize for responsive adjustments
 	const handleResize = () => {
@@ -47,10 +50,9 @@
 	// Create the chart with proper responsiveness
 	const createChart = () => {
 		if (!currentUser || isLoading) return;
-
 		// Extract daily stats data
 		const dailyStats = currentUser.Stats[0].Daily_Stats;
-
+		lenData = objectLength(dailyStats);
 		// Prepare data for Chart.js
 		const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		const labels = Object.keys(dailyStats).map((key) => daysOfWeek[parseInt(key) - 1]);
@@ -320,6 +322,8 @@
 
 <svelte:window on:resize={handleResize} />
 
+
+{#if lenData > 0}
 <main class="min-h-screen text-white px-3 py-4 sm:p-4 font-sans sm:mb-20">
 	<div class="max-w-4xl mx-auto">
 		<!-- Glass morphism card with better mobile styling -->
@@ -366,13 +370,13 @@
 							{Math.round(
 								Object.values(currentUser.Stats[0].Daily_Stats).reduce((a, b) => a + b, 0) /
 									Object.values(currentUser.Stats[0].Daily_Stats).length
-							)}m
+							) || 0}m
 						</div>
 					</div>
 					<div class="bg-gray-800/30 rounded-lg p-3 border border-gray-700/20">
 						<span class="text-xs text-gray-400">Peak Day</span>
 						<div class="text-lg font-bold text-pink-400">
-							{Math.max(...Object.values(currentUser.Stats[0].Daily_Stats))}m
+							{Math.max(...Object.values(currentUser.Stats[0].Daily_Stats)) === -Infinity ? 0 : Math.max(...Object.values(currentUser.Stats[0].Daily_Stats))}m
 						</div>
 					</div>
 				</div>
@@ -422,6 +426,18 @@
 		</div>
 	</div>
 </main>
+{:else}
+	<!-- No Data Available Message with Better Styling -->
+	<div class="min-h-screen flex flex-col justify-center items-center text-center">
+		<h1 class="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
+			No Data Available
+		</h1>
+		<p class="text-gray-400 mt-2 text-sm sm:text-base">
+			There is no study data recorded for this week. Start tracking your progress now!
+		</p>
+	</div>
+{/if}
+
 
 <style>
 	/* Base font */

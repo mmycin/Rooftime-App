@@ -9,6 +9,8 @@
 	import Typed from 'typed.js';
 	import Logout from '$lib/Utils/Logout.js';
 	import { goto } from '$app/navigation';
+		import { objectLength } from '$lib/Utils/Leaderboard';
+
 
 	Chart.register(...registerables);
 
@@ -23,6 +25,7 @@
 	let loadingProgress = 0;
 	let windowWidth;
 	let isMobile = false;
+	let lenData;
 
 	const id = data.slug;
 
@@ -339,6 +342,7 @@
 			createChart();
 
 			const dailyStats = user.Stats[0].Daily_Stats;
+			lenData = objectLength(dailyStats);
 			const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 			const labels = Object.keys(dailyStats).map((key) => daysOfWeek[parseInt(key) - 1]);
 			const data = Object.values(dailyStats);
@@ -594,7 +598,7 @@
 						{/if}
 
 						<!-- Admin badge if applicable -->
-						{#if user.Admin}
+						<!-- {#if user.Admin}
 							<div
 								class="bg-gray-800/30 backdrop-blur-sm rounded-xl shadow-lg border border-amber-700/30 overflow-hidden"
 							>
@@ -623,7 +627,7 @@
 									</div>
 								</div>
 							</div>
-						{/if}
+						{/if} -->
 					</div>
 
 					<!-- Right column - Contact & Account Info -->
@@ -846,6 +850,7 @@
 		{/if}
 
 		<!-- Chart  -->
+		 {#if lenData > 0}
 		<div class="max-w-4xl mx-auto mt-5">
 			<!-- Glass morphism card with better mobile styling -->
 			<div
@@ -954,6 +959,7 @@
 				</div>
 			</div>
 		</div>
+		{/if}
 	</main>
 </div>
 
