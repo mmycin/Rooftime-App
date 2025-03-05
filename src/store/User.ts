@@ -1,6 +1,7 @@
 import type { RecordModel } from 'pocketbase';
 import Database from '../db/Database';
 import { stats } from './Statistics';
+import UpdateLeaderboard from '$lib/Utils/Leaderboard';
 
 export const users = new Database('Users');
 
@@ -14,14 +15,14 @@ export interface User {
 	About_Info: string;
 	Phone_Number: string;
 	Data: string[];
-	Profile_Picture: string;
 	JWT_Token: string | null;
 	Admin: boolean;
 	Stats: RecordModel[]; 
+	Last_Updated: string;
 }
 
 export async function refreshData(): Promise<User[]> {
-	const data = (await users.findAll()) as unknown as User[];
+	let data = (await users.findAll()) as unknown as User[];
 	const cache = await caches.open(CACHE_NAME);
 
 	const statsData = await stats.findAll();
@@ -38,6 +39,7 @@ export async function refreshData(): Promise<User[]> {
 		headers: { 'Content-Type': 'application/json' }
 	});
 	cache.put('users-data', response);
+	data = (await UpdateLeaderboard(data)) as User[];
 	return data;
 }
 

@@ -39,7 +39,7 @@
 	onMount(async () => {
 		users = (await loadUsers()) as User[];
 
-		await UpdateLeaderboard(users);
+		users = await UpdateLeaderboard(users) as User[];
 		currentUser = await CurrentUser();
 		isLoading = false;
 	});
