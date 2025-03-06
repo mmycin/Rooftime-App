@@ -17,7 +17,8 @@ export interface User {
 	Data: string[];
 	JWT_Token: string | null;
 	Admin: boolean;
-	Stats: RecordModel[]; 
+	Stats: RecordModel[];
+	All_Time_Score_Record: object;
 	Last_Updated: string;
 }
 

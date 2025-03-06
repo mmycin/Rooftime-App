@@ -84,7 +84,7 @@
 				if (weeklySortBy === 'time') return b.Time_This_Week - a.Time_This_Week;
 				if (weeklySortBy === 'weeklyScore') return b.Score_Week - a.Score_Week;
 				return b.Score_Alltime - a.Score_Alltime;
-			});
+			})
 	};
 </script>
 
