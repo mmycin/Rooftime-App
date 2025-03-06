@@ -281,7 +281,7 @@
 										</td>
 										<td class="px-4 py-4 text-sm md:text-base font-medium">
 											<div class="flex items-center space-x-1.5">
-												<span class="truncate max-w-xs inline-block">{user.Name}</span>
+												<span class="truncate max-w-xs inline-block">{user.Username}</span>
 												<button
 													class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
 													style="cursor: pointer;"
@@ -443,7 +443,7 @@
 											</td>
 											<td class="px-4 py-4 text-sm md:text-base font-medium">
 												<div class="flex items-center space-x-1.5">
-													<span class="truncate max-w-xs inline-block">{user.Name}</span>
+													<span class="truncate max-w-xs inline-block">{user.Username}</span>
 													<button
 														class="text-gray-400 hover:text-blue-500 transition-colors duration-150 focus:outline-none"
 														style="cursor: pointer;"

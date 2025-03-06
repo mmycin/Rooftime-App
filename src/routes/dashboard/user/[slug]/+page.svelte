@@ -850,7 +850,6 @@
 		{/if}
 
 		<!-- Chart  -->
-		 {#if lenData > 0}
 		<div class="max-w-4xl mx-auto mt-5">
 			<!-- Glass morphism card with better mobile styling -->
 			<div
@@ -959,7 +958,6 @@
 				</div>
 			</div>
 		</div>
-		{/if}
 	</main>
 </div>
 

@@ -80,11 +80,12 @@ export default async function updateLeaderboard(users: Members): Promise<Members
 	}
 
 	console.log(users);
-	return users;
+	return updateWeeklyScore(users);
+	// return users;
 }
 
 /** Returns the number of keys in an object */
-function objectLength(obj: object): number {
+export function objectLength(obj: object): number {
 	return Object.keys(obj).length;
 }
 
@@ -92,3 +93,48 @@ function objectLength(obj: object): number {
 function sumArray(arr: number[]): number {
 	return arr.reduce((sum, val) => sum + val, 0);
 }
+
+function updateWeeklyScore(users: User[]): User[] {
+	// Initialize each user's weekly score to 0.
+	for (const user of users) {
+		user.Stats[0].Score_Week = 0;
+	}
+
+	// Create a set to hold all unique day keys from all users' Daily_Stats.
+	const allDays = new Set<number>();
+	for (const user of users) {
+		const dailyStats = user.Stats[0].Daily_Stats;
+		Object.keys(dailyStats).forEach((dayKey) => {
+			allDays.add(Number(dayKey));
+		});
+	}
+
+	// For each day, determine the top three performers.
+	for (const day of Array.from(allDays)) {
+		// Build an array with each user's performance for the day.
+		const performances: { user: User; value: number }[] = [];
+		for (const user of users) {
+			const dailyStats = user.Stats[0].Daily_Stats;
+			if (dailyStats.hasOwnProperty(day)) {
+				performances.push({ user, value: dailyStats[day] });
+			}
+		}
+
+		// Sort performances in descending order (higher performance first).
+		performances.sort((a, b) => b.value - a.value);
+
+		// Award points: 1st = 5, 2nd = 3, 3rd = 1.
+		if (performances.length > 0) {
+			performances[0].user.Stats[0].Score_Week += 5;
+		}
+		if (performances.length > 1) {
+			performances[1].user.Stats[0].Score_Week += 3;
+		}
+		if (performances.length > 2) {
+			performances[2].user.Stats[0].Score_Week += 1;
+		}
+	}
+
+	return users;
+}
+

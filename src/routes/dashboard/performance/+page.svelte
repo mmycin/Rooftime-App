@@ -53,6 +53,7 @@
 		// Extract daily stats data
 		const dailyStats = currentUser.Stats[0].Daily_Stats;
 		lenData = objectLength(dailyStats);
+		console.log(lenData);
 		// Prepare data for Chart.js
 		const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 		const labels = Object.keys(dailyStats).map((key) => daysOfWeek[parseInt(key) - 1]);
@@ -323,7 +324,7 @@
 <svelte:window on:resize={handleResize} />
 
 
-{#if lenData > 0}
+<!-- {#if lenData > 0} -->
 <main class="min-h-screen text-white px-3 py-4 sm:p-4 font-sans sm:mb-20">
 	<div class="max-w-4xl mx-auto">
 		<!-- Glass morphism card with better mobile styling -->
@@ -426,9 +427,9 @@
 		</div>
 	</div>
 </main>
-{:else}
+<!-- {:else}
 	<!-- No Data Available Message with Better Styling -->
-	<div class="min-h-screen flex flex-col justify-center items-center text-center">
+	<!-- <div class="min-h-screen flex flex-col justify-center items-center text-center">
 		<h1 class="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500">
 			No Data Available
 		</h1>
@@ -436,8 +437,7 @@
 			There is no study data recorded for this week. Start tracking your progress now!
 		</p>
 	</div>
-{/if}
-
+{/if} --> 
 
 <style>
 	/* Base font */
