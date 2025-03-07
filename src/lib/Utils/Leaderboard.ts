@@ -18,41 +18,56 @@ export default async function updateLeaderboard(users: Members): Promise<Members
 	const usersNeedingUpdate = users.filter((user) => user.Stats[0].Last_Updated !== today);
 
 	if (usersNeedingUpdate.length > 0) {
-		// First, calculate Score_Week for each user based on their Daily_Stats
+		// Calculate Score_Week for each user based on Daily_Stats
 		for (const user of usersNeedingUpdate) {
 			const stats = user.Stats[0];
-
-			// Calculate Score_Week as the sum of all Daily_Stats values
 			const dailyScores = Object.values(stats.Daily_Stats);
-			//@ts-ignore
+			// @ts-ignore
 			stats.Score_Week = dailyScores.reduce((sum, val) => sum + val, 0);
 		}
 
-		// Sort users by their newly calculated Score_Week to rank them
+		// Sort users by their Time_Today for leaderboard ranking
 		const sortedUsers = [...usersNeedingUpdate].sort(
-			(a, b) => b.Stats[0].Score_Week - a.Stats[0].Score_Week
+			(a, b) => b.Stats[0].Time_Today - a.Stats[0].Time_Today
 		);
 
-		// Update each user's daily and all-time records
-		for (const user of usersNeedingUpdate) {
+		// Assign scores based on ranking
+		let rank = 0;
+		let lastScore = 5;
+		let lastTime: number | null = null;
+
+		for (const user of sortedUsers) {
+			const timeToday = user.Stats[0].Time_Today;
+
+			// Adjust rank if current user has a different Time_Today than the last user
+			if (lastTime !== null && timeToday !== lastTime) {
+				rank++;
+			}
+
+			// Assign correct scores based on rank
+			let todayScore = 0;
+			switch (rank) {
+				case 0:
+					todayScore = 5;
+					break;
+				case 1:
+					todayScore = 3;
+					break;
+				case 2:
+					todayScore = 1;
+					break;
+				default:
+					todayScore = 0;
+					break;
+			}
+
+			// Update user stats
 			const stats = user.Stats[0];
-
-			// Update the total time for the week
-			console.log(stats.Daily_Stats);
-			const weeklyTime = calculateTimeThisWeek(stats.Daily_Stats);
-			stats.Time_Total = weeklyTime + stats.Time_Today;
-
-			// Append today's data based on today's Time_Today value
-			// Determine user's position in the leaderboard and assign a score accordingly
-			const userPosition = sortedUsers.findIndex((sortedUser) => sortedUser === user);
-			const todayScore = userPosition < 3 ? Score[userPosition] : 0;
-
-			// Append today's score to the daily stats (using a consecutive day index)
-			const nextDayIndex = objectLength(stats.Daily_Stats) + 1;
-			stats.Daily_Stats[nextDayIndex] = todayScore;
-
-			// Recalculate Score_Week with the newly added daily score
 			stats.Score_Week += todayScore;
+
+			// Append today's score to the daily stats
+			const nextDayIndex = objectLength(stats.Daily_Stats) + 1;
+			stats.Daily_Stats[nextDayIndex] = timeToday;
 
 			// Update All-Time Score Record
 			if (!stats.All_Time_Score_Record.data) {
@@ -64,24 +79,27 @@ export default async function updateLeaderboard(users: Members): Promise<Members
 			// Reset today's time counter
 			stats.Time_Today = 0;
 
-			// If 7 days of data have been recorded, reset the weekly (daily) stats
-			if (objectLength(stats.Daily_Stats) >= 7) {
-				stats.Daily_Stats = {};
+			// If 7 days of data recorded, reset weekly stats
+			if (objectLength(stats.Daily_Stats) >= 8) {
+				const lastDay = lastElement(stats.Daily_Stats);
+				stats.Daily_Stats = { '1': lastDay };
+				stats.Time_Total = 0;
 			}
 
-			// Mark the user as updated for today
+			// Mark user as updated
 			stats.Last_Updated = today;
 
-			// Persist this user's updated stats
+			// Persist changes
 			await Statistics.update(user.Data[0], stats);
+
+			// Store lastTime for ranking logic
+			lastTime = timeToday;
 		}
 	} else {
 		console.log('No users need updating for today.');
 	}
 
-	console.log(users);
 	return updateWeeklyScore(users);
-	// return users;
 }
 
 /** Returns the number of keys in an object */
@@ -94,24 +112,25 @@ function sumArray(arr: number[]): number {
 	return arr.reduce((sum, val) => sum + val, 0);
 }
 
+/**
+ * Updates the weekly leaderboard scores based on the past week's daily stats.
+ */
 function updateWeeklyScore(users: User[]): User[] {
-	// Initialize each user's weekly score to 0.
+	// Reset weekly scores
 	for (const user of users) {
 		user.Stats[0].Score_Week = 0;
 	}
 
-	// Create a set to hold all unique day keys from all users' Daily_Stats.
+	// Collect all unique day indices from Daily_Stats
 	const allDays = new Set<number>();
 	for (const user of users) {
 		const dailyStats = user.Stats[0].Daily_Stats;
-		Object.keys(dailyStats).forEach((dayKey) => {
-			allDays.add(Number(dayKey));
-		});
+		Object.keys(dailyStats).forEach((dayKey) => allDays.add(Number(dayKey)));
 	}
 
-	// For each day, determine the top three performers.
+	// Calculate top 3 for each day and award points
 	for (const day of Array.from(allDays)) {
-		// Build an array with each user's performance for the day.
+		// Gather user performances for this day
 		const performances: { user: User; value: number }[] = [];
 		for (const user of users) {
 			const dailyStats = user.Stats[0].Daily_Stats;
@@ -120,21 +139,51 @@ function updateWeeklyScore(users: User[]): User[] {
 			}
 		}
 
-		// Sort performances in descending order (higher performance first).
+		// Sort users by performance
 		performances.sort((a, b) => b.value - a.value);
 
-		// Award points: 1st = 5, 2nd = 3, 3rd = 1.
-		if (performances.length > 0) {
-			performances[0].user.Stats[0].Score_Week += 5;
-		}
-		if (performances.length > 1) {
-			performances[1].user.Stats[0].Score_Week += 3;
-		}
-		if (performances.length > 2) {
-			performances[2].user.Stats[0].Score_Week += 1;
+		// Assign correct scores while handling ties properly
+		let rank = 0;
+		let lastTime: number | null = null;
+
+		for (const { user, value } of performances) {
+			if (lastTime !== null && value !== lastTime) {
+				rank++;
+			}
+
+			// Assign points based on rank
+			let score = 0;
+			switch (rank) {
+				case 0:
+					score = 5;
+					break;
+				case 1:
+					score = 3;
+					break;
+				case 2:
+					score = 1;
+					break;
+				default:
+					score = 0;
+					break;
+			}
+
+			user.Stats[0].Score_Week += score;
+			lastTime = value;
 		}
 	}
 
 	return users;
 }
 
+/** Returns the last element of an object (assumed to be a dictionary-like structure) */
+function lastElement(obj: object): number | null {
+	if (!obj) return null;
+	try {
+		let last: number = Object.values(obj)[Object.keys(obj).length - 1];
+		return last;
+	} catch (error) {
+		console.log(error);
+		return null;
+	}
+}

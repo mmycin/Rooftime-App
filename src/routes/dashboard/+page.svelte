@@ -40,6 +40,7 @@
 		users = (await loadUsers()) as User[];
 
 		users = await UpdateLeaderboard(users) as User[];
+		console.log(users);
 		currentUser = await CurrentUser();
 		isLoading = false;
 	});
