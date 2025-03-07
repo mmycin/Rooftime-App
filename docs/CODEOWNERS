@@ -1,0 +1,13 @@
+# Define owners for the entire repository
+* @mmycin
+
+# Define owners for specific directories or files
+/frontend/ @mmycin
+/backend/ @mmycin
+/src-tauri/ @mmycin
+/android/ @mmycin
+/docker/ @mmycin
+
+# Specific files
+README.md @mmycin
+SECURITY.md @mmycin
