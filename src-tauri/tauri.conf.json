@@ -1,0 +1,38 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "Rooftime",
+  "version": "0.1.0",
+  "identifier": "com.mycin.rooftime",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:5173",
+    "beforeDevCommand": "bun run dev",
+    "beforeBuildCommand": "bun run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Rooftime",
+        "width": 800,
+        "height": 600,
+        "resizable": true,
+        "maximized": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/favicon.png",
+      "icons/favicon.png",
+      "icons/favicon.png",
+      "icons/favicon.icns",
+      "icons/favicon.ico"
+    ]
+  }
+}
