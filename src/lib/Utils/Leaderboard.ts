@@ -1,6 +1,6 @@
-import { calculateTimeThisWeek, DateToday } from './Algorithms';
+import {  DateToday } from './Algorithms';
 import { stats as Statistics } from '../../store/Statistics';
-import { Score, type Members } from './Types';
+import { type Members } from './Types';
 import type { User } from '../../store/User';
 
 /**
@@ -33,7 +33,6 @@ export default async function updateLeaderboard(users: Members): Promise<Members
 
 		// Assign scores based on ranking
 		let rank = 0;
-		let lastScore = 5;
 		let lastTime: number | null = null;
 
 		for (const user of sortedUsers) {
@@ -98,7 +97,7 @@ export default async function updateLeaderboard(users: Members): Promise<Members
 	} else {
 		console.log('No users need updating for today.');
 	}
-
+	
 	return updateWeeklyScore(users);
 }
 
