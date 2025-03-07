@@ -4,7 +4,7 @@
 
 > *“Study smart, track smart, compete smarter!”*  
 
-Welcome to **Rooftime**, the *only* study tracker you’ll ever need. Whether you're a hardcore studious nerd, a last-minute crammer, or someone who *stares at books hoping for osmosis*, this app has got your back.   
+Welcome to **Rooftime**, the *only* study tracker you’ll ever need. Whether you're a hardcore studious nerd, a last-minute crammer, or someone who *stares at books hoping for osmosis*, this app has got your back.  
 
 **📌 What is Rooftime?**  
 
@@ -15,7 +15,7 @@ Rooftime is a cross-platform **study tracking** app designed for the **Rooftop S
 📊 **Leaderboard & Stats?** Always!  
 🤖 **AI-powered study insights?** You bet!  
 
----
+---  
 
 ## 🚀 Features That Make Rooftime Legendary  
 
@@ -55,7 +55,7 @@ Rooftime is a cross-platform **study tracking** app designed for the **Rooftop S
 - Compare their study time with yours in an **animated line chart**.  
 - AI-generated feedback tells you **why they’re better than you** (or not).  
 
----
+---  
 
 ## 🛠 Built With Love ❤️ (and Code 💻)  
 
@@ -66,7 +66,7 @@ Rooftime is a cross-platform **study tracking** app designed for the **Rooftop S
 - **Desktop:** Tauri (Rust, MSI Installer)  
 - **AI:** Cohere AI (because why not?)  
 
----
+---  
 
 ## 🔧 Installation & Setup  
 
@@ -74,29 +74,29 @@ Rooftime is a cross-platform **study tracking** app designed for the **Rooftop S
 ```sh
 git clone https://github.com/mmycin/Rooftime-App.git
 cd Rooftime-App
-```
+```  
 
 ### 📁 Configure Environment Variables  
-Check `.env.example` for required settings and **configure your secrets**.
+Check `.env.example` for required settings and **configure your secrets**.  
 
----
+---  
 
 ### 🏃‍♂️ Running the Web App  
 ```sh
 bun run build
 bun run preview
-```
+```  
 
----
+---  
 
 ### 🖥 Setting Up for Desktop (Windows MSI)  
 ```sh
 bun run tauri build
-```
+```  
 This creates `Rooftime_Setup.msi` in `/src-tauri/target/release/bundle/`.  
 Double-click it to install (unless your PC warns you, which means you’re doing it right 😉).  
 
----
+---  
 
 ### 📱 Mobile Setup  
 
@@ -104,30 +104,30 @@ Double-click it to install (unless your PC warns you, which means you’re doing
 ```sh
 bunx cap add android   # For Android  
 bunx cap add ios       # For iOS  
-```
+```  
 
 #### Configure and Sync  
 ```sh
 bun run build
 bunx cap copy
 bunx cap sync
-```
+```  
 
 #### Open the Project  
 ```sh
 bunx cap open android  # Opens in Android Studio  
 bunx cap open ios      # Opens in Xcode  
-```
+```  
 
 #### Build the Mobile App  
 ```sh
 bunx cap build android
 bunx cap build ios
-```
+```  
 
 This will generate the **APK (Android)** or **IPA (iOS)** file. 🚀  
 
----
+---  
 
 ## 🤔 Why Use Rooftime?  
 
@@ -136,7 +136,7 @@ This will generate the **APK (Android)** or **IPA (iOS)** file. 🚀
 ✅ **Because competing with friends makes studying bearable.**  
 ✅ **Because installing this makes you at least 10% more productive.**  
 
----
+---  
 
 ## 🔥 FAQ  
 
@@ -152,10 +152,32 @@ Cry. Then **study harder**.
 ### ❓ Will this app make me smarter?  
 That depends on **whether you actually study or just stare at the timer**.  
 
----
+---  
+
+## 🎉 Shoutouts & Congratulations!  
+
+### 🚀 **Rooftop Society Members**  
+The Rooftime app is proudly built for the legendary members of the **Rooftop Society**:  
+- **Rafsan Talha**  
+- **Riasat Rahil**  
+- **Tahcin Ul Karim (Mycin)**  
+- **Asik Al Masud (Mahin)**  
+- **Tanzim Dihan**  
+- **Sabit Hossain**  
+- **Abrar Abtahi (Faiyaz)**  
+
+### 🌟 Special Shoutout to Rafsan Talha!  
+Big thanks to **Rafsan Talha** for the **idea** and the **design inspiration** behind this app. You truly are the architect of Rooftime’s awesomeness as well as the heart of the Society!
+
+### 🎉 **Hail Sabit Bhai!**  
+Let’s all celebrate for **Sabit Bhai** Hail! 🙌🎉  
+
+---  
 
 ## 💡 Final Thoughts  
 
 If you’ve made it this far, **congratulations!** 🎉 You either really love reading READMEs or you're **stalling from studying** (in which case, go start your timer NOW! ⏳).  
 
-**Made with ❤️ by Tahcin Ul Karim (Mycin)**
+**Made with ❤️ by Tahcin Ul Karim (Mycin)**  
+
+---
