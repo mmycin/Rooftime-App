@@ -2,15 +2,15 @@ name: iOS Build with Capacitor (Bun)
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
-  workflow_dispatch: # Allows manual trigger
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: macos-latest  # Uses a Mac runner
+    runs-on: macos-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
         with:
           bun-version: latest
 
-      - name: Install dependencies with Bun
+      - name: Install dependencies
         run: bun install
 
       - name: Build Svelte app
@@ -29,13 +29,24 @@ jobs:
       - name: Install Capacitor CLI
         run: bun add -g @capacitor/cli@latest
 
-      - name: Add iOS platform
-        run: bun x cap add ios || echo "iOS already added"
+      - name: Ensure iOS platform exists
+        run: |
+          if [ ! -d "ios" ]; then
+            bun x cap add ios
+          fi
 
       - name: Sync Capacitor
         run: bun x cap sync ios
 
-      - name: Install CocoaPods (for iOS dependencies)
+      - name: Generate Podfile (if missing)
+        run: |
+          cd ios
+          if [ ! -f "Podfile" ]; then
+            pod init
+          fi
+          cd ..
+
+      - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install
