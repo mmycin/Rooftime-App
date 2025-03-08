@@ -40,18 +40,15 @@ jobs:
 
       - name: Ensure Xcode project and Podfile exists
         run: |
+          # Run the copy command to ensure iOS assets (including Xcode project) are generated
+          bun x cap copy ios
+          # Check if Podfile exists; if not, create one manually with correct project path
           if [ ! -f "ios/Podfile" ]; then
-            # Capacitor's copy step to ensure iOS assets are in place
-            bun x cap copy ios
-            # Check again for the Podfile
-            if [ ! -f "ios/Podfile" ]; then
-              # Create Podfile manually if it still doesn't exist
-              echo "platform :ios, '12.0'" > ios/Podfile
-              echo "target 'App' do" >> ios/Podfile
-              echo "  use_frameworks!" >> ios/Podfile
-              echo "  project 'App.xcodeproj'" >> ios/Podfile  # Specify the Xcode project here
-              echo "end" >> ios/Podfile
-            fi
+            echo "platform :ios, '12.0'" > ios/Podfile
+            echo "target 'App' do" >> ios/Podfile
+            echo "  use_frameworks!" >> ios/Podfile
+            echo "  project 'App/App.xcodeproj'" >> ios/Podfile
+            echo "end" >> ios/Podfile
           fi
 
       - name: Install CocoaPods dependencies
