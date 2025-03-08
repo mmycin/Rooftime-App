@@ -1,0 +1,44 @@
+name: iOS Build with Capacitor
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  build:
+    runs-on: macos-latest  # Uses a Mac runner
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Capacitor CLI
+        run: npm install -g @capacitor/cli
+
+      - name: Add iOS platform
+        run: npx cap add ios || echo "iOS already added"
+
+      - name: Sync Capacitor
+        run: npx cap sync ios
+
+      - name: Install CocoaPods (for iOS dependencies)
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Build iOS App
+        run: |
+          cd ios
+          xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release -allowProvisioningUpdates
