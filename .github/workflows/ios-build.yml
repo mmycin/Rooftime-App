@@ -1,11 +1,11 @@
-name: iOS Build with Capacitor
+name: iOS Build with Capacitor (Bun)
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
   workflow_dispatch: # Allows manual trigger
 
 jobs:
@@ -15,22 +15,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: 18
+          bun-version: latest
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install dependencies with Bun
+        run: bun install
 
       - name: Install Capacitor CLI
-        run: npm install -g @capacitor/cli
+        run: bun add -g @capacitor/cli@latest
 
       - name: Add iOS platform
-        run: npx cap add ios || echo "iOS already added"
+        run: bun x cap add ios || echo "iOS already added"
 
       - name: Sync Capacitor
-        run: npx cap sync ios
+        run: bun x cap sync ios
 
       - name: Install CocoaPods (for iOS dependencies)
         run: |
