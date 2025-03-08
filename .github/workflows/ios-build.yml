@@ -40,7 +40,6 @@ jobs:
 
       - name: Ensure Xcode project and Podfile exists
         run: |
-          # Ensure that iOS code is copied and Podfile is created
           if [ ! -f "ios/Podfile" ]; then
             # Capacitor's copy step to ensure iOS assets are in place
             bun x cap copy ios
@@ -50,6 +49,7 @@ jobs:
               echo "platform :ios, '12.0'" > ios/Podfile
               echo "target 'App' do" >> ios/Podfile
               echo "  use_frameworks!" >> ios/Podfile
+              echo "  project 'App.xcodeproj'" >> ios/Podfile  # Specify the Xcode project here
               echo "end" >> ios/Podfile
             fi
           fi
