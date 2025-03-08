@@ -32,6 +32,7 @@
 		"@capacitor/cli": "^7.0.1",
 		"@capacitor/core": "^7.0.1",
 		"@capacitor/electron": "^2.5.0",
+		"@capacitor/ios": "^7.0.1",
 		"@sveltejs/adapter-static": "^3.0.8",
 		"@tauri-apps/cli": "^2.3.1",
 		"@types/bcryptjs": "^2.4.6",
