@@ -38,18 +38,16 @@ jobs:
       - name: Sync Capacitor
         run: bun x cap sync ios
 
-      - name: Generate Podfile (if missing)
+      - name: Ensure Xcode project exists
         run: |
-          cd ios
-          if [ ! -f "Podfile" ]; then
-            pod init
+          if [ ! -d "ios/App.xcworkspace" ]; then
+            bun x cap copy ios
           fi
-          cd ..
 
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          pod install
+          pod install || pod update
           cd ..
 
       - name: Build iOS App
