@@ -23,6 +23,9 @@ jobs:
       - name: Install dependencies with Bun
         run: bun install
 
+      - name: Build Svelte app
+        run: bun run build
+
       - name: Install Capacitor CLI
         run: bun add -g @capacitor/cli@latest
 
