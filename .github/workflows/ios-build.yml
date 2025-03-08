@@ -60,4 +60,5 @@ jobs:
       - name: Build iOS App
         run: |
           cd ios
-          xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release -allowProvisioningUpdates
+          # Use CODE_SIGN_IDENTITY and DEVELOPMENT_TEAM to bypass the need for manual selection
+          xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO DEVELOPMENT_TEAM=""
