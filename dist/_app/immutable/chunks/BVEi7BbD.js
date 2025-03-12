@@ -1,1 +1,0 @@
-import{r as n}from"./Hm5LeLRE.js";import{G as u}from"./DIRHSvSV.js";async function i(){const r=await n(),e=localStorage.getItem("token");if(e===null){console.log("No token found");return}const t=u(e);return r.filter(o=>o.id===t)[0]}async function f(r){return(await n()).filter(s=>s.id===r)[0]}export{i as C,f as F};
