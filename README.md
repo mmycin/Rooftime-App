@@ -178,6 +178,4 @@ Let’s all celebrate for **Sabit Bhai** Hail! 🙌🎉
 
 If you’ve made it this far, **congratulations!** 🎉 You either really love reading READMEs or you're **stalling from studying** (in which case, go start your timer NOW! ⏳).  
 
-**Made with ❤️ by Tahcin Ul Karim (Mycin)**  
-
 ---
